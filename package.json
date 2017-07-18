@@ -1,0 +1,22 @@
+{
+  "name": "payir",
+  "version": "1.0.0",
+  "description": "A lightwight Node.js package for connect to Pay.ir REST Api",
+  "main": "payir",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/erfansahaf/payir.git"
+  },
+  "author": "Erfan Sahafnejad",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/erfansahaf/payir/issues"
+  },
+  "homepage": "https://github.com/erfansahaf/payir#readme",
+  "dependencies": {
+    "request": "^2.81.0"
+  }
+}
