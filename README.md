@@ -87,6 +87,10 @@ When transaction is done,  `then` will have an input object that contains follow
 
 By using `test` string instead of your gateway API Key, you can test your code.
 
+# Sample
+
+If you need a sample code, you can take a look at `sample.js` file.
+
 # License
 
 This package is under Apache 2.0 license.
