@@ -1,36 +1,36 @@
-# ماژول ند جی اس درگاه پی دات آی آر
+# 📦 Pay.ir Node.js Module
 
 [![N|Solid](https://pay.ir/assets/img/logo.png.pagespeed.ce.DAyscoRFh0.png)](https://pay.ir)
 
-با استفاده از این پکیج میتوانید در پلتفرم ند جی اس و فریمورک های مختلف سمت سرور مانند اکسپرس از خدمات وبسایت 
-پی دات آی آر به راحتی و بسرعت استفاده نمایید.
-لازم به ذکر است که این ماژول از ویژگی های نسخه 6 اکمااسکریپت بهره میبرد.
+[نسخه فارسی مستندات این پکیج](http://github.com/erfansahaf/payir/blob/master/Fa.md)
 
-این پیکج به سفارش شرکت پرداخت الکترونیک سامان تهیه و توسعه داده شده است.
 
-# قدم اول - نصب و آماده سازی
+By using this package, you'll be able to work with Pay.ir REST Api in Node.js (Back-End) without any problem! This package is usable for all Node.js Frameworks such as Express.js, Hapi.js, Sails.js, Adonis.js or others.
 
-برای استفاده از این پکیج ابتدا میبایست پکیج را با استفاده از دستور زیر به پروژتان اضافه کنید:
+This package uses ECMASCRIPT 6 features so make sure that your Node.js version supports it.
+
+# First step, Installation and Initialization
+
+First of all, install the module with NPM command:
 
 ```sh
 $ npm install payir --save
-```
+``` 
 
-سپس میبایست آن را ریکوایر کرده و یک شی از آن بسازید. ورودی کانستراکت این کلاس ای پی آی درگاه شماست:
+Then, create an instance of Payir class and pass your Gateway API KEY to it:
 
 ```js
 const Payir = require('payir');
 const gateway = new Payir('YOUR API KEY');
 ```
 
-# قدم دوم - ارسال درخواست
+# Second step, Send Request
 
-## send متد
+## `send` Method:
 
-توسط این متد میتوانید یک درخواست پرداخت ایجاد کنید.
-این متد به ترتیب مبلغ تراکنش، آدرس بازگشت از بانک و شماره فاکتور (اختیاری) را از شما دریافت میکند.
+After initializing, you should send a payment request in order to receive the `transId` and redirect user to the Bank.
 
-این پکیج جهت اعلام نتیجه درخواست از پرامیس ها استفاده میکند. پس خیالتان راحت، از شر کال بک فانکشن ها راحت هستید!
+Hopefuly, you can get rid of the Callback functions by using Promises:
 
 ```js
 app.get('/', (req, res) => {
@@ -40,34 +40,30 @@ app.get('/', (req, res) => {
 });
 ```
 
-در صورتی که عملیات موفقیت آمیز باشد، لینک پرداخت توسط بخش 
+First parameter is `amount` of the transaction, the second one is your `callback URL` and the third one is the `invoice number` (optional).
 
-`then`
+If operations are done successfully, you'll have access to payment URL in `then`, otherwise you can read error message in `catch`.
 
-در دسترس خواهد بود و میتوانید کاربر را به درگاه بانکی هدایت کنید. درغیر این صورت متن خطا در بخش
+The error message might be a Farsi text; Therefore, make sure your page supports UTF-8 encoding.
 
-`catch` 
+# Third step, Verify Request
 
-در دسترس خواهد بود. ممکن است متن این خطا فارسی باشد، پس قبل از نمایش آن مطمئن شوید که صفحه شما از حروف فارسی پشتیبانی میکند تا در نمایش خطا به کاربر مشکلی نداشته باشید.
+## `verify` Method:
 
-# قدم سوم - بررسی وضعیت تراکنش
+When user perform the transaction, it will redirect to your callback URL, so you should verify that in a POST route.
 
-## verify متد
-
-با استفاده از این متد میتوانید وضعیت تراکنش را بررسی کنید. به یاد داشته باشید که این متد
-حتما باید در درخواست پُست فراخوانی شود.
-
-تنها پارامتر ورودی متد وریفای، آبجکتی که مقادیر پسُت را شامل میشود است که ممکن است در فریمورک های مختلف متفاوت باشد.
-برای مثال در فریمورک اکسپرس و هپی بصورت زیر میتوان به مقادیر پست صفحه دسترسی داشت:
+The only parameter of the `verify` method is your POST request body. There are differences between Node.js web frameworks so you should pass it accurate. For example:
 
 ```js
+// How to access to POST data
+
 // Express.js
 console.log(request.body.var_name);
 // Hapi.js
 console.log(request.payload.var_name);
 ```
 
-حال شما میبایست با توجه به فریمورک مورد استفاده خود، آبجکتی که شامل مقادیر پست هست را به این متد پاس دهید:
+So in `express.js` framework we will have:
 
 ```js
 app.post('/verify', (req, res) => {
@@ -78,37 +74,19 @@ app.post('/verify', (req, res) => {
 });
 ```
 
-در صورتی که پرداخت موفقیت آمیز بوده باشد، یک آبجکت شامل مقادیر زیر در بخش
+When transaction is done,  `then` will have an input object that contains following values:
 
-`then`
+|      Key      	|                            Description                           	|
+|:-------------:	|:----------------------------------------------------------------:	|
+|  factorNumber 	| The Invoice number that you passed to send method in second step 	|
+| transactionId 	|                   The unique id of the transaction                   	|
+|     amount    	|                     The amount of transaction                    	|
+|   cardNumber  	|                      The User's bank card number                     	|
 
- در دسترس خواهد بود:
+# Test Mode
 
-|                             توضیحات                            |      کلید     |
-|:--------------------------------------------------------------:|:-------------:|
-| شماره فاکتوری که در مرحله دوم و متد سند برای درگاه ارسال کردید |  factorNumber |
-|                     آی دی یا شماره ی تراکنش                    | transactionId |
-|                      مبلغ تراکنش انجام شده                     |     amount    |
-|            شماره کارتی که پرداخت با آن انجام شده است           |   cardNumber  |
+By using `test` string instead of your gateway API Key, you can test your code.
 
-و در صورتی که پرداخت به درستی انجام نشده باشد توضیحات خطا در
+# License
 
-`catch`
-
-قابل دسترس خواهد بود.
-
-# تست درگاه
-
-در صورتی که ای پی آی ورودی کلاس را
-
-`test`
-
-وارد کنید، میتوانید از امکان تست درگاه پی.آی آر استفاده کنید.
-
-# نمونه کد
-
-به نمونه کد استفاده از پکیج احتیاج دارید؟ فایل `سمپل.جی اس` را بررسی کنید.
-
-# مجوز استفاده
-
-این پکیج با رعایت بند های مجوز آپاچی 2.0 قابل استفاده و توسعه میباشد.
+This package is under Apache 2.0 license.
