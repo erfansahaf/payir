@@ -14,16 +14,23 @@
 
 برای استفاده از این پکیج ابتدا میبایست پکیج را با استفاده از دستور زیر به پروژتان اضافه کنید:
 
+</div>
+
 ```sh
 $ npm install payir --save
 ```
+<div dir="rtl">
 
 سپس میبایست آن را ریکوایر کرده و یک شی از آن بسازید. ورودی کانستراکت این کلاس ای پی آی درگاه شماست:
+
+</div>
 
 ```js
 const Payir = require('payir');
 const gateway = new Payir('YOUR API KEY');
 ```
+
+<div dir="rtl">
 
 # قدم دوم - ارسال درخواست
 
@@ -34,6 +41,8 @@ const gateway = new Payir('YOUR API KEY');
 
 این پکیج جهت اعلام نتیجه درخواست از پرامیس ها استفاده میکند. پس خیالتان راحت، از شر کال بک فانکشن ها راحت هستید!
 
+</div>
+
 ```js
 app.get('/', (req, res) => {
     gateway.send(1000, 'http://your-site.ir/verify')
@@ -41,6 +50,8 @@ app.get('/', (req, res) => {
             .catch(error => res.end("<head><meta charset='utf8'></head>" + error));
 });
 ```
+
+<div dir="rtl">
 
 در صورتی که عملیات موفقیت آمیز باشد، لینک پرداخت توسط بخش 
 
@@ -62,6 +73,8 @@ app.get('/', (req, res) => {
 تنها پارامتر ورودی متد وریفای، آبجکتی که مقادیر پسُت را شامل میشود است که ممکن است در فریمورک های مختلف متفاوت باشد.
 برای مثال در فریمورک اکسپرس و هپی بصورت زیر میتوان به مقادیر پست صفحه دسترسی داشت:
 
+</div>
+
 ```js
 // Express.js
 console.log(request.body.var_name);
@@ -69,7 +82,11 @@ console.log(request.body.var_name);
 console.log(request.payload.var_name);
 ```
 
+<div dir="rtl">
+
 حال شما میبایست با توجه به فریمورک مورد استفاده خود، آبجکتی که شامل مقادیر پست هست را به این متد پاس دهید:
+
+</div>
 
 ```js
 app.post('/verify', (req, res) => {
@@ -79,6 +96,8 @@ app.post('/verify', (req, res) => {
         .catch(error => res.end("<head><meta charset='utf8'></head>" + error));
 });
 ```
+
+<div dir="rtl">
 
 در صورتی که پرداخت موفقیت آمیز بوده باشد، یک آبجکت شامل مقادیر زیر در بخش
 
