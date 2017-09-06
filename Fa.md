@@ -1,3 +1,4 @@
+<div dir="rtl">
 # ماژول ند جی اس درگاه پی دات آی آر
 
 [![N|Solid](https://pay.ir/assets/img/logo.png.pagespeed.ce.DAyscoRFh0.png)](https://pay.ir)
